@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: stakater-code-linting-dotnet
+  labels:
+    app.kubernetes.io/version: "{{ .Chart.Version }}"
+spec:
+  steps:
+    - image: 'mcr.microsoft.com/dotnet/aspnet:6.0'
+      name: code-lint
+      script: |
+        if [ -f "*.csproj" ]
+        then
+         dotnet format style --verify-no-changes --verbosity diagnostic
+        else
+         echo "No dotnet project found"
+        fi
+      workingDir: $(workspaces.source.path)
+  workspaces:
+    - name: source
