@@ -5,8 +5,13 @@ metadata:
   labels:
     app.kubernetes.io/version: "{{ .Chart.Version }}"
 spec:
+  params:
+    - name: CSPROJECT_PATH
+      type: string
+      description: Path to the CSPROJECT directory.
+      default: ./
   steps:
-    - image: 'mcr.microsoft.com/dotnet/aspnet:6.0'
+    - image: 'mcr.microsoft.com/dotnet/aspnet:8.0'
       name: code-lint
       script: |
         if [ -f "*.csproj" ]
@@ -15,6 +20,6 @@ spec:
         else
          echo "No dotnet project found"
         fi
-      workingDir: $(workspaces.source.path)
+      workingDir: $(workspaces.source.path)/$(params.CSPROJECT_PATH)
   workspaces:
     - name: source
