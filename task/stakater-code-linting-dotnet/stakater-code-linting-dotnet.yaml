@@ -5,7 +5,7 @@ kind: Task
 metadata:
   name: stakater-code-linting-dotnet
   labels:
-    app.kubernetes.io/version: "0.0.2"
+    app.kubernetes.io/version: "0.0.3"
 spec:
   params:
     - name: CSPROJECT_PATH
